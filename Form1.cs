@@ -6,10 +6,5 @@ namespace Assignment_4._1._2
         {
             InitializeComponent();
         }
-        private SplitContainer splitContainer1;
-        private TableLayoutPanel answerTableLayoutPanel;
-        private SplitContainer splitContainer2;
-        private TableLayoutPanel numbersTableLayoutPanel;
-        private TableLayoutPanel operatorsTableLayoutPanel;
     }
 }

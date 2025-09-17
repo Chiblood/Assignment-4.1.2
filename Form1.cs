@@ -1,57 +1,51 @@
+using System.Data;
+
 namespace Assignment_4._1._2
 {
-
-
     public partial class Form1 : Form
     {
-        double firstNumber;
-        double secondNumber;
-        String? operation;
-
         public Form1()
         {
             InitializeComponent();
         }
-        // Append the corresponding digit to the AnswerGroupBox1 TextBox
+
+        // Append the corresponding digit to the AnswerLabel1 Text
         private void numberButtonClicked(object sender, EventArgs e)
         {
             Button? clickedButton = sender as Button;
-            AnswerGroupBox1.Text += clickedButton.Text;
+            AnswerLabel1.Text += clickedButton.Text;
         }
 
-        // Store the first number and the selected operator, then clear the display for the second number
+        // Append the operator to the AnswerLabel1 Text
         private void operatorButtonClicked(object sender, EventArgs e)
         {
             Button? clickedButton = sender as Button;
+            string op = clickedButton.Text;
 
-            operation = clickedButton.Text;
-            firstNumber = double.Parse(AnswerGroupBox1.Text);
-            AnswerGroupBox1.Text= string.Empty;
+            // Convert 'x' to '*' for evaluation
+            if (op == "x") op = "*";
+            AnswerLabel1.Text += op;
         }
-        // Perform the calculation based on the selected operator and display the result
-        private void EqualsButtonClicked(object sender, EventArgs e) 
+
+        // Evaluate the expression and display the result
+        private void EqualsButtonClicked(object sender, EventArgs e)
         {
-            secondNumber = double.Parse(AnswerGroupBox1.Text);
-            Calculator calculator = new Calculator();
-            double result = 0;
-
-            switch (operation)
+            try
             {
-                case "+":
-                    result = calculator.Add(firstNumber, secondNumber);
-                    break;
-                case "-":
-                    result = calculator.Subtract(firstNumber, secondNumber);
-                    break;
-                case "*":
-                    result = calculator.Multiply(firstNumber, secondNumber);
-                    break;
-                case "/":
-                    result = calculator.Divide(firstNumber, secondNumber);
-                    break;
+                string expression = AnswerLabel1.Text;
+                var result = new DataTable().Compute(expression, null);
+                FinalAnswer.Text = result.ToString();
             }
+            catch
+            {
+                FinalAnswer.Text = "Error";
+            }
+        }
 
-            AnswerGroupBox1.Text = result.ToString();
+        private void ClearButtonClicked(object sender, EventArgs e)
+        {
+            AnswerLabel1.Text = string.Empty;
+            FinalAnswer.Text = string.Empty;
         }
     }
 }
